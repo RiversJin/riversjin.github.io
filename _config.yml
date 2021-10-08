@@ -97,7 +97,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 plugins:
   hexo-generator-feed
@@ -113,3 +113,9 @@ deploy:
   type: git
   branch: dist
   repo: https://github.com/RiversJin/riversjin.github.io.git
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
