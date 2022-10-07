@@ -20,28 +20,35 @@
     var CONFIG = {"hostname":"riversjin.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://riversjin.github.io/index.html">
+  <meta name="description" content="这一篇文章, 我们浅谈一下原子变量以及内存序模型. 有什么问题欢迎留言指出, 我们可以一起讨论. Atomic Variable首先我们先来聊一下什么是”原子性”. 假如有这样一段代码 1234int v;void add()&amp;#123;    v &#x3D; v + 2;&amp;#125; 在执行add函数时, CPU需要先从内存中取出v的值, 然后计算+2, 最后写回到内存中. 如果只有一个执行序, 那当然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Atomic Variable &amp; Memory Order">
+<meta property="og:url" content="http://riversjin.github.io/2022/10/04/Atomic-Variable/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这一篇文章, 我们浅谈一下原子变量以及内存序模型. 有什么问题欢迎留言指出, 我们可以一起讨论. Atomic Variable首先我们先来聊一下什么是”原子性”. 假如有这样一段代码 1234int v;void add()&amp;#123;    v &#x3D; v + 2;&amp;#125; 在执行add函数时, CPU需要先从内存中取出v的值, 然后计算+2, 最后写回到内存中. 如果只有一个执行序, 那当然">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-04T13:26:37.000Z">
+<meta property="article:modified_time" content="2022-10-07T12:11:09.036Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="原子变量">
+<meta property="article:tag" content="并发">
+<meta property="article:tag" content="内存序模型">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://riversjin.github.io/">
+<link rel="canonical" href="http://riversjin.github.io/2022/10/04/Atomic-Variable/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Hexo</title>
+  <title>Atomic Variable & Memory Order | Hexo</title>
   
 
 
@@ -139,9 +146,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -157,10 +165,9 @@
       <meta itemprop="name" content="Hexo">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/04/Atomic-Variable/" class="post-title-link" itemprop="url">Atomic Variable & Memory Order</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Atomic Variable & Memory Order
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -190,7 +197,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>这一篇文章, 我们浅谈一下原子变量以及内存序模型. 有什么问题欢迎留言指出, 我们可以一起讨论.</p>
+        <p>这一篇文章, 我们浅谈一下原子变量以及内存序模型. 有什么问题欢迎留言指出, 我们可以一起讨论.</p>
 <h1 id="Atomic-Variable"><a href="#Atomic-Variable" class="headerlink" title="Atomic Variable"></a>Atomic Variable</h1><p>首先我们先来聊一下什么是”原子性”. 假如有这样一段代码</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> v;</span><br><span class="line"><span class="type">void</span> <span class="title function_">add</span><span class="params">()</span>&#123;</span><br><span class="line">    v = v + <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在执行add函数时, CPU需要先从内存中取出v的值, 然后计算+2, 最后写回到内存中. 如果只有一个执行序, 那当然无所谓. 但如果有并发呢? 那就比较麻烦了. 我们讨论最简单的情况, 即双线程并发执行一次这个函数.</p>
@@ -321,289 +328,42 @@ void set_v()&#123;
 <h1 id="END"><a href="#END" class="headerlink" title="END"></a>END</h1><p>这篇关于原子变量的文章到这里就结束了, emm 也没有完全结束, 还都是理论介绍, 没有实际的代码例子, 之后我会再写一篇实操的(咕咕咕咕).</p>
 <p>但其实我最想说的是, 大部分情况, 除了计数器这种非常简单的需求, 没事不要折腾什么无锁编程, 性能不一定快多少, 但可以保证的是bug会很难调. 很多时候程序的瓶颈根本就不差这几个锁, 现在的Linux的futex什么的, 用锁其实也没慢多少的… 同理, 你确定一定要用原子变量的时候, 就直接用顺序一致性就好, 也没差多少, 尤其是在x86这种平台, 很多细粒度的屏障都是不支持的, 没有什么搞事的余地:(</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F/" rel="tag"># 原子变量</a>
+              <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
+              <a href="/tags/%E5%86%85%E5%AD%98%E5%BA%8F%E6%A8%A1%E5%9E%8B/" rel="tag"># 内存序模型</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://riversjin.github.io/2021/10/11/Mit6824/MIT-6-824-Lab1-%E8%A6%81%E6%B1%82/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/11/Mit6824/MIT-6-824-Lab1-%E8%A6%81%E6%B1%82/" class="post-title-link" itemprop="url">MIT 6.824 Lab1 要求</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-10-11 20:35:19" itemprop="dateCreated datePublished" datetime="2021-10-11T20:35:19+08:00">2021-10-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-10-04 14:06:37" itemprop="dateModified" datetime="2022-10-04T14:06:37+08:00">2022-10-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MIT-6-824/" itemprop="url" rel="index"><span itemprop="name">MIT 6.824</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这一篇文章主要是对实验1要求的翻译 以及顺便需要记录的碎碎念.</p>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><blockquote>
-<p>In this lab you’ll build a MapReduce system. You’ll implement a worker process that calls application Map and Reduce functions and handles reading and writing files, and a coordinator process that hands out tasks to workers and copes with failed workers. You’ll be building something similar to the MapReduce paper. (Note: the lab uses “coordinator” instead of the paper’s “master”.)</p>
-</blockquote>
-<p>在这个实验中,你需要实现一个MapReduce系统.你需要实现一个调用<em>Map</em>和<em>Reduce</em>的worker process. 以及一个负责将任务分发到worker process并处理work process错误的coordinator process. </p>
-<h2 id="Getting-started"><a href="#Getting-started" class="headerlink" title="Getting started"></a>Getting started</h2><blockquote>
-<p>You’ll fetch the initial lab software with git (a version control system). To learn more about git, look at the Pro Git book or the git user’s manual. To fetch the 6.824 lab software:</p>
-</blockquote>
-<p>通过git拉取代码,如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> git://g.csail.mit.edu/6.824-golabs-2021 6.824</span><br><span class="line">$ <span class="built_in">cd</span> 6.824</span><br><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">Makefile src</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>We supply you with a simple sequential mapreduce implementation in src&#x2F;main&#x2F;mrsequential.go. It runs the maps and reduces one at a time, in a single process. We also provide you with a couple of MapReduce applications: word-count in mrapps&#x2F;wc.go, and a text indexer in mrapps&#x2F;indexer.go. You can run word count sequentially as follows:</p>
-</blockquote>
-<p>在src&#x2F;main&#x2F;mrsequential.go中,以及实现了一个简单的顺序的MapReduce实现(即非并发的版本).它在一个进程中,执行<em>map</em>和<em>reduce</em>.</p>
-<p>另外,还提供了一些MapReduce的应用程序,比如mrapps&#x2F;wc.go的word count,以及mrapps&#x2F;indexer.go的文本索引器.</p>
-<p>以下的命令可以以顺序版本执行word count:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/6.824</span><br><span class="line">$ <span class="built_in">cd</span> src/main</span><br><span class="line">$ go build -race -buildmode=plugin ../mrapps/wc.go</span><br><span class="line">$ <span class="built_in">rm</span> mr-out*</span><br><span class="line">$ go run -race mrsequential.go wc.so pg*.txt</span><br><span class="line">$ more mr-out-0</span><br><span class="line">A 509</span><br><span class="line">ABOUT 2</span><br><span class="line">ACT 8</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p><strong>注意: 如果编译的时候没有-race参数,那么运行的时候也不可加-race参数</strong></p>
-<blockquote>
-<p>-race参数是golang内置的竞态检测,一般来说,内存使用增加5-10倍,运行速度减慢2-20倍.<br>具体参考 <a target="_blank" rel="noopener" href="https://golang.org/doc/articles/race_detector">https://golang.org/doc/articles/race_detector</a></p>
-</blockquote>
-<h2 id="Your-Job"><a href="#Your-Job" class="headerlink" title="Your Job"></a>Your Job</h2><blockquote>
-<p>Your job is to implement a distributed MapReduce, consisting of two programs, the coordinator and the worker. There will be just one coordinator process, and one or more worker processes executing in parallel. In a real system the workers would run on a bunch of different machines, but for this lab you’ll run them all on a single machine. The workers will talk to the coordinator via RPC. Each worker process will ask the coordinator for a task, read the task’s input from one or more files, execute the task, and write the task’s output to one or more files. The coordinator should notice if a worker hasn’t completed its task in a reasonable amount of time (for this lab, use ten seconds), and give the same task to a different worker.</p>
-</blockquote>
-<p>你的工作是实现一个分布式的MapReduce.它主要由Worker和Coordinator组成. 一个Coordinator与若干个Worker并行执行. 在真实系统中,这些进程会在不同的机器上运行,但是对于这个实验来说,Coordinator与Worker会在同一个机器上执行. 进程间通过RPC通信.Workder会向Coordinator请求发布任务,从一个或若干个文件中读取输入,执行任务,并将输出写另一些文件中.Coordinator要注意到每个Workder是否在合理的时间内完成任务(在这个实验中,这个时间是10s),如果没有,将这个任务交给另一个Worker</p>
-<blockquote>
-<p>We have given you a little code to start you off. The “main” routines for the coordinator and worker are in main&#x2F;mrcoordinator.go and main&#x2F;mrworker.go; don’t change these files. You should put your implementation in mr&#x2F;coordinator.go, mr&#x2F;worker.go, and mr&#x2F;rpc.go.</p>
-</blockquote>
-<p>我们已经给了你一小部分代码.Worker和Coordinator的main routine位于main&#x2F;mrcoordinator.go和main&#x2F;mrworker.go中.不要更改这些文件。您应该将实现放在mr&#x2F;coordinator.go、mr&#x2F;worker.go和mr&#x2F;rpc.go中。</p>
-<blockquote>
-<p>Here’s how to run your code on the word-count MapReduce application. First, make sure the word-count plugin is freshly built:</p>
-</blockquote>
-<p>以下,介绍如何使用你的代码运行word count.首先,确保word-count是最新构建出的:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go build -race -buildmode=plugin ../mrapps/wc.go</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>In the main directory, run the coordinator.<br>在main目录中,运行Coordinator程序</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> mr-out*</span><br><span class="line">$ go run -race mrcoordinator.go pg-*.txt</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>The pg-*.txt arguments to mrcoordinator.go are the input files; each file corresponds to one “split”, and is the input to one Map task. The -race flags runs go with its race detector.</p>
-</blockquote>
-<p>传入”pg-*.txt”参数到mrcoordinator.go是输入文件,每个文件都是一个”切片”(即输入文件已经被拆分为若干个小文件了),这对应一个Map task. -race 参数告诉编译器启用竞态检测.</p>
-<blockquote>
-<p>In one or more other windows, run some workers:</p>
-</blockquote>
-<p>在其他窗口上,执行worker进程:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ go run -race mrworker.go wc.so</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>When the workers and coordinator have finished, look at the output in mr-out-*. When you’ve completed the lab, the sorted union of the output files should match the sequential output, like this:</p>
-</blockquote>
-<p>当执行成功后,查看mr-out-*中的输出,这些输出结果应该与提供的顺序版本的MapReduce的输出一致.像这样:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> mr-out-* | <span class="built_in">sort</span> | more</span><br><span class="line">A 509</span><br><span class="line">ABOUT 2</span><br><span class="line">ACT 8</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>We supply you with a test script in main&#x2F;test-mr.sh. The tests check that the wc and indexer MapReduce applications produce the correct output when given the pg-xxx.txt files as input. The tests also check that your implementation runs the Map and Reduce tasks in parallel, and that your implementation recovers from workers that crash while running tasks.</p>
-</blockquote>
-<p>我们提供了一个测试脚本,位于main&#x2F;test-mr.sh.它会检查wc和indexer能否在以pg-xxx.txt文件作为输入时,产生正确的输出. 也会检查你的实现是否是并行的,以及能否在某些worker崩溃后恢复.</p>
-<blockquote>
-<p>If you run the test script now, it will hang because the coordinator never finishes:</p>
-</blockquote>
-<p>如果现在运行测试脚本，它将挂起，因为还没有完成Coordinator.</p>
-<blockquote>
-<p>You can change ret :&#x3D; false to true in the Done function in mr&#x2F;coordinator.go so that the coordinator exits immediately. Then:</p>
-</blockquote>
-<p>你可以将mr&#x2F;coordinator.go中的Done函数中的reg:&#x3D;false改为reg:&#x3D;true.这样Coordinator会立即退出.这样脚本就不会卡住了.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ bash test-mr.sh</span><br><span class="line">*** Starting <span class="built_in">wc</span> <span class="built_in">test</span>.</span><br><span class="line"><span class="built_in">sort</span>: No such file or directory</span><br><span class="line">cmp: EOF on mr-wc-all</span><br><span class="line">--- <span class="built_in">wc</span> output is not the same as mr-correct-wc.txt</span><br><span class="line">--- <span class="built_in">wc</span> <span class="built_in">test</span>: FAIL</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>The test script expects to see output in files named mr-out-X, one for each reduce task. The empty implementations of mr&#x2F;coordinator.go and mr&#x2F;worker.go don’t produce those files (or do much of anything else), so the test fails.</p>
-</blockquote>
-<p>测试脚本期望的输出文件为mr-out-X,每个reduce任务对应一个文件.mr&#x2F;coordinator.go与mr&#x2F;worker.go的空实现不会生成这些输出,所以上面的测试会失败.</p>
-<blockquote>
-<p>When you’ve finished, the test script output should look like this:</p>
-</blockquote>
-<p>当你完成这个实验后,运行测试脚本,会得到类似于下面的输出:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ bash test-mr.sh</span><br><span class="line">*** Starting <span class="built_in">wc</span> <span class="built_in">test</span>.</span><br><span class="line">--- <span class="built_in">wc</span> <span class="built_in">test</span>: PASS</span><br><span class="line">*** Starting indexer <span class="built_in">test</span>.</span><br><span class="line">--- indexer <span class="built_in">test</span>: PASS</span><br><span class="line">*** Starting map parallelism <span class="built_in">test</span>.</span><br><span class="line">--- map parallelism <span class="built_in">test</span>: PASS</span><br><span class="line">*** Starting reduce parallelism <span class="built_in">test</span>.</span><br><span class="line">--- reduce parallelism <span class="built_in">test</span>: PASS</span><br><span class="line">*** Starting crash <span class="built_in">test</span>.</span><br><span class="line">--- crash <span class="built_in">test</span>: PASS</span><br><span class="line">*** PASSED ALL TESTS</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>You’ll also see some errors from the Go RPC package that look like</p>
-</blockquote>
-<p>你会在Go PRC包中看到类似于下面的报错:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2019/12/16 13:27:09 rpc.Register: method <span class="string">&quot;Done&quot;</span> has 1 input parameters; needs exactly three</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Ignore these messages; registering the coordinator as an RPC server checks if all its methods are suitable for RPCs (have 3 inputs); we know that Done is not called via RPC.</p>
-</blockquote>
-<p>忽略这些报错即可.将Coordinator注册为RPC server时检查Coordinator中的所有导出方法是否适合RPC的调用,但是我们知道Done并不是通过RPC调用的,所以不必理会.</p>
-<h2 id="A-few-rules"><a href="#A-few-rules" class="headerlink" title="A few rules"></a>A few rules</h2><ul>
-<li><p>The map phase should divide the intermediate keys into buckets for nReduce reduce tasks, where nReduce is the argument that main&#x2F;mrcoordinator.go passes to MakeCoordinator().</p>
-</li>
-<li><p>The worker implementation should put the output of the X’th reduce task in the file mr-out-X.</p>
-</li>
-<li><p>worker实现应该将第X个reduce任务的输出放在mr-out-X文件中</p>
-</li>
-<li><p>A mr-out-X file should contain one line per Reduce function output. The line should be generated with the Go “%v %v” format, called with the key and value. Have a look in main&#x2F;mrsequential.go for the line commented “this is the correct format”. The test script will fail if your implementation deviates too much from this format.</p>
-</li>
-<li><p>You can modify mr&#x2F;worker.go, mr&#x2F;coordinator.go, and mr&#x2F;rpc.go. You can temporarily modify other files for testing, but make sure your code works with the original versions; we’ll test with the original versions.</p>
-</li>
-<li><p>你可以修改mr&#x2F;worker.go、mr&#x2F;coordinator.go和mr&#x2F;rpc.go。你可以临时修改其他文件进行测试，但请确保代码与原始版本兼容；我们将使用原始版本进行测试。</p>
-</li>
-<li><p>The worker should put intermediate Map output in files in the current directory, where your worker can later read them as input to Reduce tasks.</p>
-</li>
-<li><p>Worker应该将中间的Map输出放在当前目录中,这样稍后的Workder可以将其作为Reduce任务的输入</p>
-</li>
-<li><p>main&#x2F;mrcoordinator.go expects mr&#x2F;coordinator.go to implement a Done() method that returns true when the MapReduce job is completely finished; at that point,mrcoordinator.go will exit.</p>
-</li>
-<li><p>main&#x2F;mrcoordinator.go期望mr&#x2F;coordinator.go实现一个Done方法.当MapReduce任务完成时,此函数返回true. 整个coordinator.go程序退出.</p>
-</li>
-<li><p>When the job is completely finished, the worker processes should exit. A simple way to implement this is to use the return value from call(): if the worker fails to contact the coordinator, it can assume that the coordinator has exited because the job is done, and so the worker can terminate too. Depending on your design, you might also find it helpful to have a “please exit” pseudo-task that the coordinator can give to workers.</p>
-</li>
-<li><p>当任务全部完成时,Worker进程应该退出.实现这一点可以使用call()的返回值: 如果Workder未能联系到Coordinator,可以假设Coordinator已经退出,因为任务已经完成,那么Worker也可以退出.这取决与你的设计,你可能会发现,如果Coordinator可以向Worker发送一个”退出”的伪任务,会很有用.</p>
-</li>
-</ul>
-<h2 id="Hints"><a href="#Hints" class="headerlink" title="Hints"></a>Hints</h2><ul>
-<li><p>One way to get started is to modify mr&#x2F;worker.go’s Worker() to send an RPC to the coordinator asking for a task. Then modify the coordinator to respond with the file name of an as-yet-unstarted map task. Then modify the worker to read that file and call the application Map function, as in mrsequential.go.</p>
-</li>
-<li><p>你可以从这个方面入手: 修改mr&#x2F;worker.go的worker(),通过RPC向Coordinator请求任务,然后修改Coordiantor,向Worker返回尚未启动的map任务对应的文件名.再然后,修改Worker,读取此文件,调用map程序.</p>
-</li>
-<li><p>The application Map and Reduce functions are loaded at run-time using the Go plugin package, from files whose names end in .so.</p>
-</li>
-<li><p>Map和Reduce应用程序在运行的时候从.so文件中通过Go plugin package动态加载</p>
-</li>
-<li><p>If you change anything in the mr&#x2F; directory, you will probably have to re-build any MapReduce plugins you use, with something like go build -race -buildmode&#x3D;plugin ..&#x2F;mrapps&#x2F;wc.go</p>
-</li>
-<li><p>如果你修改了mr&#x2F;目录下的内容,可能需要重新构建MapReduce插件,使用类似于go build-race-buildmode&#x3D;plugin..&#x2F;mrapps&#x2F;wc.go的命令</p>
-</li>
-<li><p>This lab relies on the workers sharing a file system. That’s straightforward when all workers run on the same machine, but would require a global filesystem like GFS if the workers ran on different machines.</p>
-</li>
-<li><p>这个实验需要worker程序们共享同一个文件系统.如果worker在同一台机器上,实现这一点很简单.如果在不同的机器上,就需要类似于GFS这种分布式文件系统了.</p>
-</li>
-<li><p>A reasonable naming convention for intermediate files is mr-X-Y, where X is the Map task number, and Y is the reduce task number.</p>
-</li>
-<li><p>一个比较合理的中间文件命名规则是这样的: mr-X-Y. 其中X是Map任务号,Y是Reduce任务号.</p>
-</li>
-<li><p>The worker’s map task code will need a way to store intermediate key&#x2F;value pairs in files in a way that can be correctly read back during reduce tasks. One possibility is to use Go’s encoding&#x2F;json package. To write key&#x2F;value pairs to a JSON file:</p>
-</li>
-<li><p>Worker的map任务需要一种在文件中存取中间键\值对的方法,你可以使用Go的encoding&#x2F;json包</p>
-</li>
-<li><p>The map part of your worker can use the ihash(key) function (in worker.go) to pick the reduce task for a given key.</p>
-</li>
-<li><p>worker的map部分可以使用ihash(key)函数(在worker.go中)为给定的键选择reduce任务</p>
-</li>
-<li><p>You can steal some code from mrsequential.go for reading Map input files, for sorting intermedate key&#x2F;value pairs between the Map and Reduce, and for storing Reduce output in files.</p>
-</li>
-<li><p>你可以借鉴一些mrsequential.go中代码来实现读取map输入,对map,reduce中间的键值对排序,以及将reduce的输入写入到文件(读书人的事情,怎么能叫偷呢)</p>
-</li>
-<li><p>The coordinator, as an RPC server, will be concurrent; don’t forget to lock shared data.</p>
-</li>
-<li><p>协调器作为RPC服务器会并发执行,别忘了加锁</p>
-</li>
-<li><p>Use Go’s race detector, with go build -race and go run -race. test-mr.sh by default runs the tests with the race detector.</p>
-</li>
-<li><p>在go build以及go run时加入-race来启用go的竞态检测,提前发现问题.不然test-mr.sh也会检测竞态问题的.</p>
-</li>
-<li><p>Workers will sometimes need to wait, e.g. reduces can’t start until the last map has finished. One possibility is for workers to periodically ask the coordinator for work, sleeping with time.Sleep() between each request. Another possibility is for the relevant RPC handler in the coordinator to have a loop that waits, either with time.Sleep() or sync.Cond. Go runs the handler for each RPC in its own thread, so the fact that one handler is waiting won’t prevent the coordinator from processing other RPCs.</p>
-</li>
-<li><p>Worker有时需要等待.比如,reduce任务需要所有map任务执行完成之后才能开始. 可以在每个请求间使用time.sleep(这个Sleep放在Worker或者Coordinator中都行),或者通过条件变量(sync.Cond)进行同步.Go的RPC调用是并发的,所以其中一个调用阻塞时,不会影响处理其他RPC请求.</p>
-</li>
-<li><p>The coordinator can’t reliably distinguish between crashed workers, workers that are alive but have stalled for some reason, and workers that are executing but too slowly to be useful. The best you can do is have the coordinator wait for some amount of time, and then give up and re-issue the task to a different worker. For this lab, have the coordinator wait for ten seconds; after that the coordinator should assume the worker has died (of course, it might not have).</p>
-</li>
-<li><p>Coordinator无法可靠地区分以下几种Worker</p>
-<ol>
-<li>已经崩溃的</li>
-<li>仍然运行但是因为某些原因停止运行</li>
-<li>执行速度太慢而无法使用</li>
-</ol>
-<p>  所以,最好让Coordinator等待一段时间,如果仍然不能响应,将这个任务重新分配给其他的Worker.在这个实验中,这个时间是10s,在此之后,Coordinator可以认为对应的Worker已经死亡</p>
-</li>
-<li><p>If you choose to implement Backup Tasks (Section 3.6), note that we test that your code doesn’t schedule extraneous tasks when workers execute tasks without crashing. Backup tasks should only be scheduled after some relatively long period of time (e.g., 10s).</p>
-</li>
-<li><p>如果你选择实现备份任务(3.6节),要注意,当worker执行备份任务并且没有崩溃时,我们会测试你的代码没有调度其他无关的任务.备份任务应该只在一段比较长的时间后被调度(<em><strong>这段还没看懂,先留个坑,回头再更详细地补充</strong></em>)</p>
-</li>
-<li><p>To test crash recovery, you can use the mrapps&#x2F;crash.go application plugin. It randomly exits in the Map and Reduce functions.</p>
-</li>
-<li><p>为了测试崩溃恢复,你可以使用mrapps&#x2F;crash.go崩溃会在map和reduce任务时随机发生</p>
-</li>
-<li><p>To ensure that nobody observes partially written files in the presence of crashes, the MapReduce paper mentions the trick of using a temporary file and atomically renaming it once it is completely written. You can use ioutil.TempFile to create a temporary file and os.Rename to atomically rename it.</p>
-</li>
-<li><p>为了确保在程序崩溃时不会出现部分写入的文件,MapReduce论文中提到了使用临时文件并在完全写入后自动重命名的技巧.你可以使用ioutil.TempFile创建一个临时文件,并使用os.Rename对其进行原子地重命名</p>
-</li>
-<li><p>test-mr.sh runs all the processes in the sub-directory mr-tmp, so if something goes wrong and you want to look at intermediate or output files, look there. You can modify test-mr.sh to exit after the failing test, so the script does not continue testing (and overwrite the output files).</p>
-</li>
-<li><p>test-mr.sh运行子目录mr-tmp中的所有进程,因此如果出现问题,您希望查看中间文件或输出文件,请查看那里.你可以修改test-mr.sh以在测试失败后退出,这样脚本就不会继续测试</p>
-</li>
-<li><p>test-mr-many.sh provides a bare-bones script for running test-mr.sh with a timeout (which is how we’ll test your code). It takes as an argument the number of times to run the tests. You should not run several test-mr.sh instances in parallel because the coordinator will reuse the same socket, causing conflicts.</p>
-</li>
-<li><p>test-mr-many.sh提供了一个用于运行带有超时的test-mr.sh的基本脚本(这就是我们测试代码的方式).它将运行测试的次数作为参数.因为你不应该并行运行多个test-mr.sh实例,因为协调器将重用同一套接字,从而导致冲突.</p>
-</li>
-</ul>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/11/Mit6824/MIT-6-824-Lab1-%E8%A6%81%E6%B1%82/" rel="prev" title="MIT 6.824 Lab1 要求">
+      <i class="fa fa-chevron-left"></i> MIT 6.824 Lab1 要求
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -650,6 +410,7 @@ void set_v()&#123;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Atomic-Variable"><span class="nav-number">1.</span> <span class="nav-text">Atomic Variable</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%BA%8F%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">内存序模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">可见性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">有序性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C"><span class="nav-number">2.2.1.</span> <span class="nav-text">内存屏障</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#load-load"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">load-load</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Store-store"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">Store-store</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Load-store"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">Load-store</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Store-load"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">Store-load</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%BA%8F-memory-order"><span class="nav-number">2.2.2.</span> <span class="nav-text">内存序 (memory order)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#relaxed"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">relaxed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#acquire"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">acquire</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#release"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">release</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#acquire-release"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">acquire-release</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sequentially-consistent"><span class="nav-number">2.2.2.5.</span> <span class="nav-text">sequentially-consistent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#consume"><span class="nav-number">2.2.2.6.</span> <span class="nav-text">consume</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#END"><span class="nav-number">3.</span> <span class="nav-text">END</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -761,6 +522,25 @@ void set_v()&#123;
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8540b0629ef41937fe4c',
+      clientSecret: '29cb92189e7048532efbc2197a431a98d7b27dbb',
+      repo        : 'riversjin.github.io',
+      owner       : 'RiversJin',
+      admin       : ['RiversJin'],
+      id          : '97fea40c82baedf21df0a7282288d876',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
