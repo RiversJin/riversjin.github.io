@@ -145,6 +145,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://riversjin.github.io/2022/10/13/%E6%B5%85%E6%9E%90Rust%E7%9A%84-derive-Clone/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RiversJin">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/13/%E6%B5%85%E6%9E%90Rust%E7%9A%84-derive-Clone/" class="post-title-link" itemprop="url">浅析Rust的#[derive(Clone)]</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-10-13 22:35:17" itemprop="dateCreated datePublished" datetime="2022-10-13T22:35:17+08:00">2022-10-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-10-16 17:53:41" itemprop="dateModified" datetime="2022-10-16T17:53:41+08:00">2022-10-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在学习rust的模板的时候, 我遇到了一个奇怪的问题. 就是关于derive(Clone)这个派生宏的. 有点意思, 跟大家分享一下.</p>
+<h1 id="问题来由"><a href="#问题来由" class="headerlink" title="问题来由"></a>问题来由</h1><p>我们先来看这段代码:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::rc::Rc;</span><br><span class="line"><span class="keyword">trait</span> <span class="title class_">MayNotClone</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">CloneByPtr</span>&lt;T&gt; <span class="keyword">where</span> T: MayNotClone&#123;</span><br><span class="line">    item: Rc&lt;T&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">trait</span> <span class="title class_">MustBeClone</span>: <span class="built_in">Clone</span> &#123;&#125;</span><br><span class="line"><span class="keyword">impl</span> &lt;T&gt; MustBeClone <span class="keyword">for</span> <span class="title class_">CloneByPtr</span>&lt;T&gt; <span class="keyword">where</span> T:MayNotClone&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码本身很简单, 首先声明一个trait叫做MayNotClone, 它不一定满足Clone这个trait, 然后, 再声明一个名为MustBeClone的trait, 这个trait必须实现Clone. 到这里, 一切正常, 对吧?</p>
+<p>接下来, 就开始有点奇怪了, 当我们尝试为CloneByPtr这个结构体实现MustBeClone时, 编译器就会报错:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\rivers\Desktop\example&gt; cargo build</span><br><span class="line">   Compiling example v0.1.0 (C:\Users\rivers\Desktop\example)</span><br><span class="line">error[E0277]: the trait bound `T: Clone` is not satisfied</span><br><span class="line"> --&gt; src\main.rs:9:10</span><br><span class="line">  |</span><br><span class="line">9 | impl &lt;T&gt; MustBeClone for CloneByPtr&lt;T&gt; where T:MayNotClone&#123;&#125;</span><br><span class="line">  |          ^^^^^^^^^^^ the trait `Clone` is not implemented for `T`</span><br><span class="line">  |</span><br><span class="line">note: required because of the requirements on the impl of `Clone` for `CloneByPtr&lt;T&gt;`</span><br><span class="line"> --&gt; src\main.rs:4:10</span><br><span class="line">  |</span><br><span class="line">4 | #[derive(Clone)]</span><br><span class="line">  |          ^^^^^</span><br><span class="line">note: required by a bound in `MustBeClone`</span><br><span class="line"> --&gt; src\main.rs:8:20</span><br><span class="line">  |</span><br><span class="line">8 | trait MustBeClone: Clone &#123;&#125;</span><br><span class="line">  |                    ^^^^^ required by this bound in `MustBeClone`</span><br><span class="line">  = note: this error originates in the derive macro `Clone` (in Nightly builds, run with -Z macro-backtrace for more info)</span><br><span class="line">help: consider further restricting this bound</span><br><span class="line">  |</span><br><span class="line">9 | impl &lt;T&gt; MustBeClone for CloneByPtr&lt;T&gt; where T:MayNotClone + std::clone::Clone&#123;&#125;</span><br><span class="line">  |                                                            +++++++++++++++++++</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0277`.</span><br><span class="line">error: could not compile `example` due to previous error</span><br></pre></td></tr></table></figure>
+
+<p>编译器提示得很清晰, MustBeClone这个trait要求实现它的结构体必须满足trait, 但是T(也就是那个MayNotClone)不满足Copy的trait, 请考虑为T添加一个clone trait的限制.</p>
+<p>我不是加了#[derive(Clone)]么, 怎么还不好使. </p>
+<p>这个就有点无理取闹了啊. 这个CloneByPtr明明持有的是T的指针, 你指针能复制就好了嘛, 要指针指向的值能复制做干嘛. </p>
+<h1 id="我们来看一下-derive-Clone-吧"><a href="#我们来看一下-derive-Clone-吧" class="headerlink" title="我们来看一下#[derive(Clone)]吧!"></a>我们来看一下#[derive(Clone)]吧!</h1><p><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/std/clone/trait.Clone.html#derivable">https://doc.rust-lang.org/std/clone/trait.Clone.html#derivable</a></p>
+<p>根据官方文档说, This trait can be used with #[derive] if all fields are Clone.<br>如果一个struct的全部field都是Clone的, 那这个宏可以让这个struct也变为Clone的.</p>
+<p>那我这个没毛病啊, std::rc::Rc不是实现了Clone么. 它直接生成item.clone()不就完事了么.</p>
+<p>那问题出在哪了呢? 我觉得应该还是在于derive(Clone)上, 我们来研究一下这个宏, 看看怎么回事.</p>
+<p>首先, 让我们先考虑一下, 这个宏都干了什么. 如果不用它, 我们自己手动实现Clone, 应该是什么样子呢? 下面我们以一个比较简单的struct举个栗子</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ImStruct</span>&#123;</span><br><span class="line">    a: <span class="type">i32</span>,</span><br><span class="line">    b: <span class="type">Vec</span>&lt;<span class="type">i32</span>&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果为它实现Clone那么就应该是</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">Clone</span> <span class="keyword">for</span> <span class="title class_">ImStruct</span> &#123;</span><br><span class="line">  <span class="keyword">fn</span> <span class="title function_">clone</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">    Foo &#123;</span><br><span class="line">      a: <span class="keyword">self</span>.a.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">      b: <span class="keyword">self</span>.b.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那如果加入泛型呢? 像这样:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ImGenericStruct</span>&lt;T, U&gt; &#123;</span><br><span class="line">  a: <span class="type">u32</span>,</span><br><span class="line">  b: Rc&lt;T&gt;,</span><br><span class="line">  c: U,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那如果为它实现Clone就应该是:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T, U&gt; <span class="built_in">Clone</span> <span class="keyword">for</span> <span class="title class_">ImGenericStruct</span>&lt;T, U&gt; &#123;</span><br><span class="line">  <span class="keyword">fn</span> <span class="title function_">clone</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">    Foo &#123;</span><br><span class="line">      a: <span class="keyword">self</span>.a.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">      b: <span class="keyword">self</span>.b.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">      c: <span class="keyword">self</span>.c.<span class="title function_ invoke__">clone</span>(), <span class="comment">// 这里8行, C类型不一定</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以如果想要为这个struct实现Clone, 就必须确保U是Clone的:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ImGenericStruct</span>&lt;T, U: <span class="built_in">Clone</span>&gt; &#123;</span><br><span class="line">  a: <span class="type">u32</span>,</span><br><span class="line">  b: Rc&lt;T&gt;,</span><br><span class="line">  c: U,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里, 一切正常, 对吧? 那#[derive(Clone)]问题出在哪了呢? 这个简单, 我们直接看它生成了什么代码就可以了. 比如gcc,clang, 有一个-E参数, 可以显示模板,宏展开后的代码. rust也有这个功能, 不过需要使用nightly版本的才可以启用此特性.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rustup toolchain install nightly </span><br><span class="line">cargo install cargo-expand </span><br><span class="line">rustup default nightly <span class="comment">#这里将rust暂时切换为nightly的版本, 记得之后改回去</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://github.com/dtolnay/cargo-expand">cargo-expand</a></p>
+<p>我们以上面 struct ImGenericStruct&lt;T, U&gt; 为例</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Clone)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ImGenericStruct</span>&lt;T, U&gt; &#123;</span><br><span class="line">  a: <span class="type">u32</span>,</span><br><span class="line">  b: Rc&lt;T&gt;,</span><br><span class="line">  c: U,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其展开代码为:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">ImGenericStruct</span>&lt;T, U&gt; &#123;</span><br><span class="line">    a: <span class="type">u32</span>,</span><br><span class="line">    b: Rc&lt;T&gt;,</span><br><span class="line">    c: U,</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#[automatically_derived]</span></span><br><span class="line"><span class="keyword">impl</span>&lt;T: ::core::clone::<span class="built_in">Clone</span>, U: ::core::clone::<span class="built_in">Clone</span>&gt; ::core::clone::<span class="built_in">Clone</span></span><br><span class="line"><span class="keyword">for</span> <span class="title class_">ImGenericStruct</span>&lt;T, U&gt; &#123;</span><br><span class="line">    <span class="meta">#[inline]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">clone</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> ImGenericStruct&lt;T, U&gt; &#123;</span><br><span class="line">        ImGenericStruct &#123;</span><br><span class="line">            a: ::core::clone::<span class="built_in">Clone</span>::<span class="title function_ invoke__">clone</span>(&amp;<span class="keyword">self</span>.a),</span><br><span class="line">            b: ::core::clone::<span class="built_in">Clone</span>::<span class="title function_ invoke__">clone</span>(&amp;<span class="keyword">self</span>.b),</span><br><span class="line">            c: ::core::clone::<span class="built_in">Clone</span>::<span class="title function_ invoke__">clone</span>(&amp;<span class="keyword">self</span>.c),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由此可见, derive(Clone)画蛇添足地为T添加了Clone限制. emm, 这是rust的宏自身的限制, 它能做到读取代码的token流用来自动生成一些其他代码, 但是应该还不具备与编译器交互的能力, 也就没办法在宏展开时做出完善的类型检查, 所以只能简单粗暴地为里面出现的每一个模板参数都直接加上Clone的限制… 也许有一些其他的trait能避开这个问题, 不过直接手动实现一下, 也是一个可以考虑的方案.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://riversjin.github.io/2022/10/04/Atomic-Variable/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -663,7 +761,7 @@ void set_v()&#123;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -674,7 +772,7 @@ void set_v()&#123;
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
