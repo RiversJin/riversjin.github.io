@@ -28,7 +28,7 @@
 <meta property="og:description" content="这一篇文章, 我们浅谈一下原子变量以及内存序模型. 有什么问题欢迎留言指出, 我们可以一起讨论. Atomic Variable首先我们先来聊一下什么是”原子性”. 假如有这样一段代码 1234int v;void add()&amp;#123;    v &#x3D; v + 2;&amp;#125; 在执行add函数时, CPU需要先从内存中取出v的值, 然后计算+2, 最后写回到内存中. 如果只有一个执行序, 那当然">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-10-04T13:26:37.000Z">
-<meta property="article:modified_time" content="2022-11-02T15:29:13.428Z">
+<meta property="article:modified_time" content="2022-11-05T04:59:53.195Z">
 <meta property="article:author" content="RiversJin">
 <meta property="article:tag" content="原子变量">
 <meta property="article:tag" content="并发">
@@ -183,7 +183,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-02 23:29:13" itemprop="dateModified" datetime="2022-11-02T23:29:13+08:00">2022-11-02</time>
+                <time title="Modified: 2022-11-05 12:59:53" itemprop="dateModified" datetime="2022-11-05T12:59:53+08:00">2022-11-05</time>
               </span>
 
           
@@ -242,7 +242,7 @@ __asm__ __volatile__(&quot;&quot;: : :&quot;memory&quot;)
 <p>那是不是等这次写回完成后就可以了呢? 无非就是等一等而已. 但是问题要更复杂一些, 上文说到, 不仅是编译器, CPU本身还会对指令进行重排以提高性能. 假如有这样一段代码:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> v = <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> flag = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">set_v</span><span class="params">()</span></span>&#123;</span><br><span class="line">    v = <span class="number">42</span>;</span><br><span class="line">    flag = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">get_v</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(flag == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> v;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在函数set_v中, 首先对v赋值, 然后对v置位. 然后在get_v中, 会轮询标志位, 当标志位非0时, 代表变量v准备好, 可以被读取, 读取v的值后返回.</p>
+<p>在函数set_v中, 首先对v赋值, 然后对flag置位. 然后在get_v中, 会轮询标志位, 当标志位非0时, 代表变量v准备好, 可以被读取, 读取v的值后返回.</p>
 <p>但是这段代码, 在一些CPU平台上, 大概率是不能运行的. 两个函数都可能存在问题.</p>
 <p>首先说set_v, 因为CPU乱序执行以及缓存的缘故, 可能出现下面的情况</p>
 <ol>
@@ -484,7 +484,7 @@ void set_v()&#123;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"riversjin.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="接上一篇文章, 这一篇我们来用一些示例程序, 来探讨一下在不同平台下原子变量的行为. 示例代码库我放在了 https:&#x2F;&#x2F;github.com&#x2F;RiversJin&#x2F;AtomicVariableDemo使用Rust实现(想顺便温习一下Rust的语法) 项目结构很简单 1234567891011abc@310a0ca1fb3d:~&#x2F;workspace&#x2F;t&#x2F;src$ tree.├── bin│   ├─">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Atomic Variable Demo">
+<meta property="og:url" content="http://riversjin.github.io/2022/12/07/Atomic-Variable-Demo/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="接上一篇文章, 这一篇我们来用一些示例程序, 来探讨一下在不同平台下原子变量的行为. 示例代码库我放在了 https:&#x2F;&#x2F;github.com&#x2F;RiversJin&#x2F;AtomicVariableDemo使用Rust实现(想顺便温习一下Rust的语法) 项目结构很简单 1234567891011abc@310a0ca1fb3d:~&#x2F;workspace&#x2F;t&#x2F;src$ tree.├── bin│   ├─">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-12-07T14:50:55.000Z">
+<meta property="article:modified_time" content="2022-12-08T15:12:00.454Z">
+<meta property="article:author" content="RiversJin">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://riversjin.github.io/2022/12/07/Atomic-Variable-Demo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Atomic Variable Demo | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://riversjin.github.io/2022/12/07/Atomic-Variable-Demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RiversJin">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Atomic Variable Demo
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-12-07 22:50:55" itemprop="dateCreated datePublished" datetime="2022-12-07T22:50:55+08:00">2022-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-12-08 23:12:00" itemprop="dateModified" datetime="2022-12-08T23:12:00+08:00">2022-12-08</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>接上一篇文章, 这一篇我们来用一些示例程序, 来探讨一下在不同平台下原子变量的行为.</p>
+<p>示例代码库我放在了 <a target="_blank" rel="noopener" href="https://github.com/RiversJin/AtomicVariableDemo">https://github.com/RiversJin/AtomicVariableDemo</a><br>使用Rust实现(想顺便温习一下Rust的语法)</p>
+<p>项目结构很简单</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ tree</span><br><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">│   ├── t1.rs</span><br><span class="line">│   ├── t2.rs</span><br><span class="line">│   ├── t3.rs</span><br><span class="line">│   ├── t4.rs</span><br><span class="line">│   └── t5.rs</span><br><span class="line">└── main.rs</span><br><span class="line"></span><br><span class="line">1 directory, 6 files</span><br></pre></td></tr></table></figure>
+<h1 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h1><p>首先是main.rs, 这里比较了两种计数器相加的方法, 一个是使用普通变量全局变量R_MUT, 另一个是使用原子变量R, 其中, 原子变量使用Relaxed的内存序约束.</p>
+<p>这种情况下, 无论什么平台, 普通变量的数字都可能会发生错误, 而原子变量正常.</p>
+<p>Windows amd64:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\rivers\Desktop\AtomicVariableDemo-master&gt; cargo run  --bin t</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 0.01s</span><br><span class="line">     Running `target\debug\t.exe`</span><br><span class="line">R:100000000 r:24134332</span><br><span class="line">PS C:\Users\rivers\Desktop\AtomicVariableDemo-master&gt; cargo run  --bin t</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 0.01s</span><br><span class="line">     Running `target\debug\t.exe`</span><br><span class="line">R:100000000 r:24366177</span><br><span class="line">PS C:\Users\rivers\Desktop\AtomicVariableDemo-master&gt; cargo run -r --bin t</span><br><span class="line">    Finished release [optimized] target(s) in 0.01s</span><br><span class="line">     Running `target\release\t.exe`</span><br><span class="line">R:100000000 r:10000004</span><br><span class="line">PS C:\Users\rivers\Desktop\AtomicVariableDemo-master&gt; cargo run -r --bin t</span><br><span class="line">    Finished release [optimized] target(s) in 0.01s</span><br><span class="line">     Running `target\release\t.exe`</span><br><span class="line">R:100000000 r:10000004</span><br></pre></td></tr></table></figure>
+<p>可以看到, 如果不使用release配置编译, 普通变量的结果每次都不同, 发生了静态行为.<br>而采用release编译后, 编译器可能对循环相加的操作做出了一些优化, 每次运行的值稳定了, 虽然结果不对.</p>
+<p>接下来, 使用弱内存序的Aarch64架构实验, 得到的结论类似:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ cargo run --bin t</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 0.01s</span><br><span class="line">     Running `/config/workspace/t/target/debug/t`</span><br><span class="line">R:100000000 r:74990565</span><br><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ cargo run --bin t</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 0.01s</span><br><span class="line">     Running `/config/workspace/t/target/debug/t`</span><br><span class="line">R:100000000 r:74348213</span><br><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ cargo run -r --bin t</span><br><span class="line">   Compiling t v0.1.0 (/config/workspace/t)</span><br><span class="line">    Finished release [optimized] target(s) in 2.51s</span><br><span class="line">     Running `/config/workspace/t/target/release/t`</span><br><span class="line">R:100000000 r:10000004</span><br><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ cargo run -r --bin t</span><br><span class="line">    Finished release [optimized] target(s) in 0.01s</span><br><span class="line">     Running `/config/workspace/t/target/release/t`</span><br><span class="line">R:100000000 r:10000004</span><br></pre></td></tr></table></figure>
+
+<h1 id="标志位"><a href="#标志位" class="headerlink" title="标志位"></a>标志位</h1><p>这个测试中, 我们可以看到存在 load-load(读取flag后再读值), store-store(先写值再写flag), 还有load-store(读取完成后清空flag)</p>
+<p>t1.rs, t2.rs与t3.rs分别展示了使用普通变量, 误用原子变量以及正常使用原子变量做并发标志位的情形.我们先测试一下Amd64的情况:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\rivers\Desktop\AtomicVariableDemo-master&gt; cargo run  --bin t1</span><br><span class="line">   Compiling t v0.1.0 (C:\Users\rivers\Desktop\AtomicVariableDemo-master)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 0.59s</span><br><span class="line">     Running `target\debug\t1.exe`</span><br><span class="line">PS C:\Users\rivers\Desktop\AtomicVariableDemo-master&gt; cargo run  --bin t2</span><br><span class="line">   Compiling t v0.1.0 (C:\Users\rivers\Desktop\AtomicVariableDemo-master)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 0.52s</span><br><span class="line">     Running `target\debug\t2.exe`</span><br><span class="line">PS C:\Users\rivers\Desktop\AtomicVariableDemo-master&gt; cargo run  --bin t3</span><br><span class="line">   Compiling t v0.1.0 (C:\Users\rivers\Desktop\AtomicVariableDemo-master)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 0.51s</span><br><span class="line">     Running `target\debug\t3.exe`</span><br></pre></td></tr></table></figure>
+
+<p>而Aarch64下, 稍稍等一会(我这里跑了3分钟), 就可以看到t1, t2出现了异常值:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ cargo run --bin t1</span><br><span class="line">   Compiling t v0.1.0 (/config/workspace/t)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 1.60s</span><br><span class="line">     Running `/config/workspace/t/target/debug/t1`</span><br><span class="line">Get! V1.0=0</span><br><span class="line">^C</span><br><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ cargo run --bin t2</span><br><span class="line">   Compiling t v0.1.0 (/config/workspace/t)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 1.59s</span><br><span class="line">     Running `/config/workspace/t/target/debug/t2`</span><br><span class="line">Get! V1.0=0</span><br><span class="line">abc@310a0ca1fb3d:~/workspace/t/src$ cargo run --bin t3</span><br><span class="line">   Compiling t v0.1.0 (/config/workspace/t)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) in 1.61s</span><br><span class="line">     Running `/config/workspace/t/target/debug/t3`</span><br></pre></td></tr></table></figure>
+
+<h1 id="多核心观测写入顺序"><a href="#多核心观测写入顺序" class="headerlink" title="多核心观测写入顺序"></a>多核心观测写入顺序</h1><p>t4.rs与t5.rs简单地复现了一下上篇文章提到的多线程观察修改顺序的问题, 来区分acquire-release与acquire-release. 这个地方和理论上有一些出入. 理论上来说, 对于Aarch64架构, 硬件是不保证多核心的观察必定一致的, 但实际上运行代码会发现, t4与t5使用acquire-release和sequentially-consistent都是不能复现出z&#x3D;&#x3D;0. 这说明其实Aarch64实际上是保证了这个一致性(至少我的Arm架构的路由器是这样). </p>
+<p>我在StackOverflow上找到了这样一篇回答, 听上去很有道理, 大家可以参考一下<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/67397460/does-stlrb-provide-sequential-consistency-on-arm64">https://stackoverflow.com/questions/67397460/does-stlrb-provide-sequential-consistency-on-arm64</a></p>
+<p>“ARMv8 originally allowed that on paper, but no ARM CPUs ever did.”</p>
+<p>更深层次的, 如果不保证这种观察上的一致性, 说明CPU的缓存同步使用的是某种广播机制, 但是工业界的cpu没这么搞, 这篇回答中也提到了只有一些很少的POWER架构的CPU才可能存在这种问题.</p>
+<p>所以, 保险起见, 在遇到需要acquire-release语义的原子变量时, 简单使用sequentially-consistent即可, 效率都一样, 反正大部分硬件不支持更灵活的控制.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/13/%E6%B5%85%E6%9E%90Rust%E7%9A%84-derive-Clone/" rel="prev" title="浅析Rust的#[derive(Clone)]">
+      <i class="fa fa-chevron-left"></i> 浅析Rust的#[derive(Clone)]
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">计数器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">标志位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E6%A0%B8%E5%BF%83%E8%A7%82%E6%B5%8B%E5%86%99%E5%85%A5%E9%A1%BA%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">多核心观测写入顺序</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RiversJin</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RiversJin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '8540b0629ef41937fe4c',
+      clientSecret: '29cb92189e7048532efbc2197a431a98d7b27dbb',
+      repo        : 'riversjin.github.io',
+      owner       : 'RiversJin',
+      admin       : ['RiversJin'],
+      id          : '794f086bad0c39347f35136669739243',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
