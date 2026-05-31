@@ -4,7 +4,8 @@ locale = 'zh-cn'
 title = "RiversJin's Blog"
 theme = 'swiss-operator'
 
-paginate = 10
+[pagination]
+pagerSize = 10
 
 [outputs]
 home = ['html', 'rss']
