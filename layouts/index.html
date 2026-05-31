@@ -1,6 +1,26 @@
 {{ define "title" }}{{ end }}
 
 {{ define "main" }}
+  {{ with site.Params.readingPaths }}
+  <div class="reading-paths">
+    <h2 class="reading-paths-title">阅读路径</h2>
+    <div class="paths-grid">
+      {{ range . }}
+      <div class="path-card" style="border-top: 3px solid {{ .color }};">
+        <h3 class="path-title">{{ .title }} <span class="path-subtitle">{{ .subtitle }}</span></h3>
+        <ol class="path-steps">
+          {{ range .posts }}
+            {{ with site.GetPage (printf "/posts/%s" .) }}
+              <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+          {{ end }}
+        </ol>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
   <div class="article-grid">
     {{ $pages := where .Site.RegularPages "Section" "posts" }}
     {{ $categoryColors := site.Params.categories.colors }}

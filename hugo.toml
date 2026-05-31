@@ -32,6 +32,24 @@ accentRed = "#E62B1E"
 showRss = true
 localFonts = true
 
+[[params.readingPaths]]
+title = "Rust 类型系统"
+subtitle = "Rust Type System"
+color = "#E62B1E"
+posts = ["rust-derive-clone", "rust-unsafecell-cpp-mutable", "rust-variance-lifetime"]
+
+[[params.readingPaths]]
+title = "并发 / 内存模型"
+subtitle = "Concurrency & Memory Model"
+color = "#0055FF"
+posts = ["atomic-variable", "atomic-variable-demo", "linux-rcu-to-epoch-gc"]
+
+[[params.readingPaths]]
+title = "系统底层实践"
+subtitle = "Systems Programming"
+color = "#5E5E5E"
+posts = ["c-cpp-inline-diff", "musl-static-link-cpp", "stackful-coroutine-linux-amd64"]
+
 [params.categories]
 colors = { "并发" = "#0055FF", "Rust" = "#E62B1E", "C/C++" = "#000000", "系统底层" = "#5E5E5E" }
 
