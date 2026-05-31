@@ -1,0 +1,99 @@
+/* Page header */
+.page-header {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.page-title {
+  font-weight: 900;
+  font-size: 2.5rem;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+/* Card tags */
+.card-tags {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--bg-overlay-2);
+  color: var(--concrete-gray);
+  border: 1px solid var(--border-light);
+}
+
+/* Terms page (categories / tags) */
+.terms-list {
+  margin-top: 20px;
+}
+
+.term-group {
+  margin-bottom: 36px;
+}
+
+.term-name {
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.term-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.term-name a:hover {
+  text-decoration: underline;
+}
+
+.term-count {
+  font-weight: 400;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--concrete-gray);
+}
+
+.term-posts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.term-posts li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-ultra-light);
+}
+
+.term-posts li:last-child {
+  border-bottom: none;
+}
+
+.term-posts a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.term-posts a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.8rem;
+  }
+}

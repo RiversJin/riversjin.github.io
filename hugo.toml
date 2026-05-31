@@ -10,6 +10,11 @@ pagerSize = 10
 [outputs]
 home = ['html', 'rss']
 section = ['html', 'rss']
+taxonomy = ['html', 'rss']
+
+[taxonomies]
+tag = "tags"
+category = "categories"
 
 [params]
 description = "记录系统底层、并发、Rust 相关的技术笔记"
@@ -26,7 +31,7 @@ showRss = true
 localFonts = true
 
 [params.categories]
-colors = { "并发" = "#0055FF", "Rust" = "#E62B1E" }
+colors = { "并发" = "#0055FF", "Rust" = "#E62B1E", "C/C++" = "#000000", "系统底层" = "#5E5E5E" }
 
 [markup]
   [markup.highlight]

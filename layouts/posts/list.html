@@ -1,0 +1,38 @@
+{{ define "title" }}文章{{ end }}
+
+{{ define "main" }}
+<div class="page-header">
+  <h1 class="page-title">所有文章</h1>
+</div>
+
+<div class="article-grid">
+  {{ $categoryColors := site.Params.categories.colors }}
+  {{ range .Pages.ByDate.Reverse }}
+    <article class="article-card">
+      {{ $borderColor := "#0055FF" }}
+      {{ with .Params.categories }}
+        {{ $cat := index . 0 }}
+        {{ with index $categoryColors $cat }}
+          {{ $borderColor = . }}
+        {{ end }}
+      {{ end }}
+
+      <span class="card-date mono-date">{{ .Date.Format "2006.01.02" }}</span>
+
+      <h3 class="card-title" style="border-left: 4px solid {{ $borderColor }}; padding-left: 12px;">
+        <a href="{{ .RelPermalink }}" style="text-decoration:none;color:inherit;">{{ .Title }}</a>
+      </h3>
+
+      {{ if .Params.description }}
+        <p class="card-description">{{ .Params.description }}</p>
+      {{ end }}
+
+      {{ with .Params.tags }}
+        <div class="card-tags">
+          {{ range . }}<span class="tag-pill">{{ . }}</span>{{ end }}
+        </div>
+      {{ end }}
+    </article>
+  {{ end }}
+</div>
+{{ end }}

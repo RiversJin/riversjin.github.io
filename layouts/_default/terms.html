@@ -1,0 +1,26 @@
+{{ define "title" }}{{ .Title }}{{ end }}
+
+{{ define "main" }}
+<div class="page-header">
+  <h1 class="page-title">{{ .Title }}</h1>
+</div>
+
+<div class="terms-list">
+  {{ range .Data.Terms.Alphabetical }}
+    <div class="term-group">
+      <h2 class="term-name">
+        <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+        <span class="term-count">({{ .Count }})</span>
+      </h2>
+      <ul class="term-posts">
+        {{ range .Pages }}
+          <li>
+            <span class="mono-date">{{ .Date.Format "2006.01.02" }}</span>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  {{ end }}
+</div>
+{{ end }}
