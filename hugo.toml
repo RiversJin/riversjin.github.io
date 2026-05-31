@@ -23,6 +23,8 @@ favicon = "/favicon.svg"
 
 [params.social]
 github = "https://github.com/RiversJin"
+email = "riversjin1999@gmail.com"
+rss = "/index.xml"
 
 [params.theme]
 accentBlue = "#0055FF"

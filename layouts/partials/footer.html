@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="social-links">
+      {{ with site.Params.social.github }}<a href="{{ . }}" target="_blank" rel="noopener">GitHub</a>{{ end }}
+      {{ with site.Params.social.email }}<a href="mailto:{{ . }}">Email</a>{{ end }}
+      {{ with site.Params.social.rss }}<a href="{{ . }}" target="_blank" rel="noopener">RSS</a>{{ end }}
+    </div>
+    <p>&copy; {{ now.Year }} {{ site.Title }}. {{ i18n "all_rights_reserved" }}.</p>
+  </div>
+</footer>
