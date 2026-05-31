@@ -1,0 +1,3 @@
+[submodule "themes/swiss-operator"]
+	path = themes/swiss-operator
+	url = https://github.com/carlosplanchon/hugo-theme-swiss-operator.git

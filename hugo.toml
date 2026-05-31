@@ -1,0 +1,50 @@
+baseURL = 'https://riversjin.github.io/'
+defaultContentLanguage = 'zh'
+locale = 'zh-cn'
+title = "RiversJin's Blog"
+theme = 'swiss-operator'
+
+paginate = 10
+
+[outputs]
+home = ['html', 'rss']
+section = ['html', 'rss']
+
+[params]
+description = "记录系统底层、并发、Rust 相关的技术笔记"
+postsPerPage = 10
+favicon = "/favicon.svg"
+
+[params.social]
+github = "https://github.com/RiversJin"
+
+[params.theme]
+accentBlue = "#0055FF"
+accentRed = "#E62B1E"
+showRss = true
+localFonts = true
+
+[params.categories]
+colors = { "并发" = "#0055FF", "Rust" = "#E62B1E" }
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    style = 'monokai'
+
+[[menu.main]]
+  name = "文章"
+  url = "/posts/"
+  weight = 1
+
+[[menu.main]]
+  name = "分类"
+  url = "/categories/"
+  weight = 2
+
+[[menu.main]]
+  name = "标签"
+  url = "/tags/"
+  weight = 3

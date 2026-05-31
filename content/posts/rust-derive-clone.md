@@ -1,8 +1,10 @@
 ---
-title: 浅析Rust的#[derive(Clone)]
-date: 2022-10-13 22:35:17
-tags:
-- "Rust"
+title: "浅析Rust的#[derive(Clone)]"
+date: 2022-10-13T22:35:17+08:00
+tags: ["Rust"]
+categories: ["Rust"]
+description: "探讨 derive(Clone) 宏的行为与泛型参数的 Clone 约束"
+comments: true
 ---
 
 在学习rust的模板的时候, 我遇到了一个奇怪的问题. 就是关于derive(Clone)这个派生宏的. 有点意思, 跟大家分享一下.
@@ -58,9 +60,9 @@ error: could not compile `example` due to previous error
 
 编译器提示得很清晰, MustBeClone这个trait要求实现它的结构体必须满足trait, 但是T(也就是那个MayNotClone)不满足Copy的trait, 请考虑为T添加一个clone trait的限制.
 
-我不是加了#[derive(Clone)]么, 怎么还不好使. 
+我不是加了#[derive(Clone)]么, 怎么还不好使.
 
-这个就有点无理取闹了啊. 这个CloneByPtr明明持有的是T的指针, 你指针能复制就好了嘛, 要指针指向的值能复制做干嘛. 
+这个就有点无理取闹了啊. 这个CloneByPtr明明持有的是T的指针, 你指针能复制就好了嘛, 要指针指向的值能复制做干嘛.
 
 # 我们来看一下#[derive(Clone)]吧!
 
@@ -123,8 +125,8 @@ struct ImGenericStruct<T, U: Clone> {
 ```
 到这里, 一切正常, 对吧? 那#[derive(Clone)]问题出在哪了呢? 这个简单, 我们直接看它生成了什么代码就可以了. 比如gcc,clang, 有一个-E参数, 可以显示模板,宏展开后的代码. rust也有这个功能, 不过需要使用nightly版本的才可以启用此特性.
 ```bash
-rustup toolchain install nightly 
-cargo install cargo-expand 
+rustup toolchain install nightly
+cargo install cargo-expand
 rustup default nightly #这里将rust暂时切换为nightly的版本, 记得之后改回去
 ```
 [cargo-expand](https://github.com/dtolnay/cargo-expand)

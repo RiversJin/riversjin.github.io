@@ -1,7 +1,10 @@
 ---
-title: Atomic Variable Demo
-date: 2022-12-07 22:50:55
-tags:
+title: "Atomic Variable Demo"
+date: 2022-12-07T22:50:55+08:00
+tags: ["原子变量", "并发"]
+categories: ["并发"]
+description: "用示例程序探讨不同平台下原子变量的行为"
+comments: true
 ---
 
 接上一篇文章, 这一篇我们来用一些示例程序, 来探讨一下在不同平台下原子变量的行为.
@@ -112,7 +115,7 @@ abc@310a0ca1fb3d:~/workspace/t/src$ cargo run --bin t3
 
 # 多核心观测写入顺序
 
-t4.rs与t5.rs简单地复现了一下上篇文章提到的多线程观察修改顺序的问题, 来区分acquire-release与acquire-release. 这个地方和理论上有一些出入. 理论上来说, 对于Aarch64架构, 硬件是不保证多核心的观察必定一致的, 但实际上运行代码会发现, t4与t5使用acquire-release和sequentially-consistent都是不能复现出z==0. 这说明其实Aarch64实际上是保证了这个一致性(至少我的Arm架构的路由器是这样). 
+t4.rs与t5.rs简单地复现了一下上篇文章提到的多线程观察修改顺序的问题, 来区分acquire-release与acquire-release. 这个地方和理论上有一些出入. 理论上来说, 对于Aarch64架构, 硬件是不保证多核心的观察必定一致的, 但实际上运行代码会发现, t4与t5使用acquire-release和sequentially-consistent都是不能复现出z==0. 这说明其实Aarch64实际上是保证了这个一致性(至少我的Arm架构的路由器是这样).
 
 我在StackOverflow上找到了这样一篇回答, 听上去很有道理, 大家可以参考一下
 https://stackoverflow.com/questions/67397460/does-stlrb-provide-sequential-consistency-on-arm64
