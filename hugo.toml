@@ -60,10 +60,10 @@ colors = { "并发" = "#0055FF", "Rust" = "#E62B1E", "C/C++" = "#000000", "系�
     lineNos = true
     style = 'monokai'
   [markup.goldmark.extensions]
-    passthrough = true
-  [markup.goldmark.extensions.passthrough.delimiters]
-    inline = [['$', '$'], ['\(', '\)']]
-    block = [['$$', $$], ['\[', '\]']]
+    [markup.goldmark.extensions.passthrough]
+      [markup.goldmark.extensions.passthrough.delimiters]
+        inline = [['$', '$'], ['\(', '\)']]
+        block = [['$$', '$$'], ['\[', '\]']]
 
 [[menu.main]]
   name = "文章"
