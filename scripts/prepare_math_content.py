@@ -37,19 +37,6 @@ def convert_inline_math(line: str) -> str:
     return "".join(out)
 
 
-def prepare_display_math(lines: list[str]) -> tuple[str, list[str]]:
-    inner = [line.strip() for line in lines if line.strip()]
-    if len(inner) <= 1:
-        return "math", inner
-
-    has_environment = any(r"\begin{" in line or r"\end{" in line for line in inner)
-    has_linebreaks = any(r"\\" in line for line in inner)
-    if has_environment or has_linebreaks:
-        return "math", inner
-
-    return "mathlines", [line.replace(r"\left", "").replace(r"\right", "") for line in inner]
-
-
 def prepare_markdown(text: str) -> str:
     lines = text.splitlines()
     out: list[str] = []
@@ -78,10 +65,9 @@ def prepare_markdown(text: str) -> str:
                 inner.append(lines[i].rstrip())
                 i += 1
 
-            shortcode, math_lines = prepare_display_math(inner)
-            out.append(f"{{{{< {shortcode} >}}}}")
-            out.extend(math_lines)
-            out.append(f"{{{{< /{shortcode} >}}}}")
+            out.append("{{< math >}}")
+            out.extend(line.strip() for line in inner if line.strip())
+            out.append("{{< /math >}}")
             if i < len(lines):
                 i += 1
             continue
