@@ -39,6 +39,9 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare math content
+        run: python3 scripts/prepare_math_content.py content "${{ runner.temp }}/hugo_content"
+
       - name: Build with Hugo
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
@@ -46,6 +49,7 @@ jobs:
           TZ: Asia/Shanghai
         run: |
           hugo \
+            --contentDir "${{ runner.temp }}/hugo_content" \
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"

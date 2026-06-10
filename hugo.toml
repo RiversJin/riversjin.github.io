@@ -61,8 +61,9 @@ colors = { "并发" = "#0055FF", "Rust" = "#E62B1E", "C/C++" = "#000000", "系�
     style = 'monokai'
   [markup.goldmark.extensions]
     [markup.goldmark.extensions.passthrough]
+      enable = true
       [markup.goldmark.extensions.passthrough.delimiters]
-        inline = [['$', '$'], ['\(', '\)']]
+        inline = [['\(', '\)']]
         block = [['$$', '$$'], ['\[', '\]']]
 
 [[menu.main]]
