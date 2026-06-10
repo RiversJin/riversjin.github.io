@@ -46,4 +46,9 @@
 
 {{ template "_internal/google_analytics.html" . }}
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5RLHO8BLeKWilEAp5sMODY6M0j1P2KQR7A23dVGF+bF7Ql9Q5Zp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ez10TQzVoE7N7t8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRrY/BUhHlqavPA" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: $$, display: true},{left: '$', right: '$', display: false},{left: '\\[', right: '\\]', display: true},{left: '\\(', right: '\\)', display: false}]});"></script>
+
 {{ block "head" . }}{{ end }}
