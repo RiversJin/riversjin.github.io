@@ -1,0 +1,396 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="468" viewBox="0 0 1180 468" role="img" aria-label="Sentence-end A-neuron token heatmap">
+<rect width="100%" height="100%" fill="#f7f4ec"/>
+<style><![CDATA[
+text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#232323}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.small{font-size:12px;fill:#666}.idx{font-size:9px;fill:#666}.tok{font-size:14px}.meta{font-size:13px;fill:#555}.title{font-size:22px;font-weight:700}.note{font-size:13px;fill:#666}
+]]></style>
+<text x="28" y="34" class="title">Sentence-End A-Neuron Token Heatmap</text>
+<text x="28" y="58" class="meta">signature: local_diff fixed · token count: 62 · max activation: 64.209</text>
+<text x="28" y="78" class="meta">dark border = position before sentence/newline punctuation · color = positive activation</text>
+<text x="892" y="32" class="small">low</text>
+<rect x="928" y="20" width="16" height="14" fill="rgb(255,249,196)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="944" y="20" width="16" height="14" fill="rgb(255,231,174)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="960" y="20" width="16" height="14" fill="rgb(255,213,152)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="976" y="20" width="16" height="14" fill="rgb(255,194,131)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="992" y="20" width="16" height="14" fill="rgb(255,176,109)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="1008" y="20" width="16" height="14" fill="rgb(255,158,87)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="1024" y="20" width="16" height="14" fill="rgb(247,139,72)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="1040" y="20" width="16" height="14" fill="rgb(230,118,63)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="1056" y="20" width="16" height="14" fill="rgb(214,97,54)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="1072" y="20" width="16" height="14" fill="rgb(198,76,45)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="1088" y="20" width="16" height="14" fill="rgb(181,55,37)" stroke="#b8b1a4" stroke-width="0.5"/>
+<rect x="1104" y="20" width="16" height="14" fill="rgb(165,34,28)" stroke="#b8b1a4" stroke-width="0.5"/>
+<text x="1128" y="32" class="small">high</text>
+<g>
+<title>pos=0 token=我是一个 next=由 activation=-0.109593 detect_cos=-0.00297428 strength_cos=0.28728</title>
+<rect x="28" y="92" width="78" height="48" rx="6" fill="rgb(255,249,196)" fill-opacity="0.350" stroke="#d7d7d7" stroke-width="1"/>
+<text x="33" y="103" class="mono idx">0</text>
+<text x="67.0" y="123" class="mono tok" text-anchor="middle" textLength="56" lengthAdjust="spacingAndGlyphs">我是一个</text>
+</g>
+<g>
+<title>pos=1 token=由 next=代码 activation=-0.186905 detect_cos=-0.00640919 strength_cos=0.232495</title>
+<rect x="113" y="92" width="78" height="48" rx="6" fill="rgb(255,249,196)" fill-opacity="0.350" stroke="#d7d7d7" stroke-width="1"/>
+<text x="118" y="103" class="mono idx">1</text>
+<text x="152.0" y="123" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">由</text>
+</g>
+<g>
+<title>pos=2 token=代码 next=和 activation=8.10837 detect_cos=0.0897409 strength_cos=0.472407</title>
+<rect x="198" y="92" width="78" height="48" rx="6" fill="rgb(255,224,166)" fill-opacity="0.432" stroke="#d7d7d7" stroke-width="1"/>
+<text x="203" y="103" class="mono idx">2</text>
+<text x="237.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">代码</text>
+</g>
+<g>
+<title>pos=3 token=和 next=算法 activation=6.75094 detect_cos=0.0785283 strength_cos=0.503063</title>
+<rect x="283" y="92" width="78" height="48" rx="6" fill="rgb(255,228,171)" fill-opacity="0.418" stroke="#d7d7d7" stroke-width="1"/>
+<text x="288" y="103" class="mono idx">3</text>
+<text x="322.0" y="123" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">和</text>
+</g>
+<g>
+<title>pos=4 token=算法 next=构成的 activation=13.3625 detect_cos=0.125749 strength_cos=0.508358</title>
+<rect x="368" y="92" width="78" height="48" rx="6" fill="rgb(255,207,146)" fill-opacity="0.485" stroke="#d7d7d7" stroke-width="1"/>
+<text x="373" y="103" class="mono idx">4</text>
+<text x="407.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">算法</text>
+</g>
+<g>
+<title>pos=5 token=构成的 next=智能 activation=3.60567 detect_cos=0.0498412 strength_cos=0.419371</title>
+<rect x="453" y="92" width="78" height="48" rx="6" fill="rgb(255,238,183)" fill-opacity="0.387" stroke="#d7d7d7" stroke-width="1"/>
+<text x="458" y="103" class="mono idx">5</text>
+<text x="492.0" y="123" class="mono tok" text-anchor="middle" textLength="42" lengthAdjust="spacingAndGlyphs">构成的</text>
+</g>
+<g>
+<title>pos=6 token=智能 next=助手 activation=10.0709 detect_cos=0.107242 strength_cos=0.465482</title>
+<rect x="538" y="92" width="78" height="48" rx="6" fill="rgb(255,218,158)" fill-opacity="0.452" stroke="#d7d7d7" stroke-width="1"/>
+<text x="543" y="103" class="mono idx">6</text>
+<text x="577.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">智能</text>
+</g>
+<g>
+<title>pos=7 token=助手 next=。 activation=59.1015 detect_cos=0.378095 strength_cos=0.659159</title>
+<rect x="623" y="92" width="78" height="48" rx="6" fill="rgb(179,52,36)" fill-opacity="0.948" stroke="#212121" stroke-width="2"/>
+<text x="628" y="103" class="mono idx">7</text>
+<text x="662.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">助手</text>
+</g>
+<g>
+<title>pos=8 token=。 next=我的 activation=29.7412 detect_cos=0.23291 strength_cos=0.575978</title>
+<rect x="708" y="92" width="78" height="48" rx="6" fill="rgb(255,156,85)" fill-opacity="0.651" stroke="#d7d7d7" stroke-width="1"/>
+<text x="713" y="103" class="mono idx">8</text>
+<text x="747.0" y="123" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">。</text>
+</g>
+<g>
+<title>pos=9 token=我的 next=运行 activation=13.4347 detect_cos=0.129468 strength_cos=0.497272</title>
+<rect x="793" y="92" width="78" height="48" rx="6" fill="rgb(255,207,146)" fill-opacity="0.486" stroke="#d7d7d7" stroke-width="1"/>
+<text x="798" y="103" class="mono idx">9</text>
+<text x="832.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">我的</text>
+</g>
+<g>
+<title>pos=10 token=运行 next=逻辑 activation=16.1992 detect_cos=0.148052 strength_cos=0.506869</title>
+<rect x="878" y="92" width="78" height="48" rx="6" fill="rgb(255,199,135)" fill-opacity="0.514" stroke="#d7d7d7" stroke-width="1"/>
+<text x="883" y="103" class="mono idx">10</text>
+<text x="917.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">运行</text>
+</g>
+<g>
+<title>pos=11 token=逻辑 next=基于 activation=23.9059 detect_cos=0.193632 strength_cos=0.550322</title>
+<rect x="963" y="92" width="78" height="48" rx="6" fill="rgb(255,175,107)" fill-opacity="0.592" stroke="#d7d7d7" stroke-width="1"/>
+<text x="968" y="103" class="mono idx">11</text>
+<text x="1002.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">逻辑</text>
+</g>
+<g>
+<title>pos=12 token=基于 next=输入 activation=8.44082 detect_cos=0.0905564 strength_cos=0.499669</title>
+<rect x="1048" y="92" width="78" height="48" rx="6" fill="rgb(255,223,164)" fill-opacity="0.435" stroke="#d7d7d7" stroke-width="1"/>
+<text x="1053" y="103" class="mono idx">12</text>
+<text x="1087.0" y="123" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">基于</text>
+</g>
+<g>
+<title>pos=13 token=输入 next=、 activation=11.2108 detect_cos=0.114841 strength_cos=0.487576</title>
+<rect x="28" y="154" width="78" height="48" rx="6" fill="rgb(255,214,154)" fill-opacity="0.463" stroke="#d7d7d7" stroke-width="1"/>
+<text x="33" y="165" class="mono idx">13</text>
+<text x="67.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">输入</text>
+</g>
+<g>
+<title>pos=14 token=、 next=上下文 activation=5.14482 detect_cos=0.0644985 strength_cos=0.484058</title>
+<rect x="113" y="154" width="78" height="48" rx="6" fill="rgb(255,233,177)" fill-opacity="0.402" stroke="#d7d7d7" stroke-width="1"/>
+<text x="118" y="165" class="mono idx">14</text>
+<text x="152.0" y="185" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">、</text>
+</g>
+<g>
+<title>pos=15 token=上下文 next=和 activation=13.1183 detect_cos=0.129164 strength_cos=0.486335</title>
+<rect x="198" y="154" width="78" height="48" rx="6" fill="rgb(255,208,147)" fill-opacity="0.483" stroke="#d7d7d7" stroke-width="1"/>
+<text x="203" y="165" class="mono idx">15</text>
+<text x="237.0" y="185" class="mono tok" text-anchor="middle" textLength="42" lengthAdjust="spacingAndGlyphs">上下文</text>
+</g>
+<g>
+<title>pos=16 token=和 next=模型 activation=8.61733 detect_cos=0.0940414 strength_cos=0.500215</title>
+<rect x="283" y="154" width="78" height="48" rx="6" fill="rgb(255,222,164)" fill-opacity="0.437" stroke="#d7d7d7" stroke-width="1"/>
+<text x="288" y="165" class="mono idx">16</text>
+<text x="322.0" y="185" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">和</text>
+</g>
+<g>
+<title>pos=17 token=模型 next=参数 activation=16.0982 detect_cos=0.149251 strength_cos=0.514347</title>
+<rect x="368" y="154" width="78" height="48" rx="6" fill="rgb(255,199,136)" fill-opacity="0.513" stroke="#d7d7d7" stroke-width="1"/>
+<text x="373" y="165" class="mono idx">17</text>
+<text x="407.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">模型</text>
+</g>
+<g>
+<title>pos=18 token=参数 next=， activation=51.0261 detect_cos=0.348513 strength_cos=0.618277</title>
+<rect x="453" y="154" width="78" height="48" rx="6" fill="rgb(202,81,48)" fill-opacity="0.867" stroke="#d7d7d7" stroke-width="1"/>
+<text x="458" y="165" class="mono idx">18</text>
+<text x="492.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">参数</text>
+</g>
+<g>
+<title>pos=19 token=， next=并不 activation=29.2042 detect_cos=0.227266 strength_cos=0.593864</title>
+<rect x="538" y="154" width="78" height="48" rx="6" fill="rgb(255,158,87)" fill-opacity="0.646" stroke="#d7d7d7" stroke-width="1"/>
+<text x="543" y="165" class="mono idx">19</text>
+<text x="577.0" y="185" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">，</text>
+</g>
+<g>
+<title>pos=20 token=并不 next=存在 activation=8.80827 detect_cos=0.102748 strength_cos=0.420301</title>
+<rect x="623" y="154" width="78" height="48" rx="6" fill="rgb(255,222,163)" fill-opacity="0.439" stroke="#d7d7d7" stroke-width="1"/>
+<text x="628" y="165" class="mono idx">20</text>
+<text x="662.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">并不</text>
+</g>
+<g>
+<title>pos=21 token=存在 next=所谓 activation=9.48597 detect_cos=0.104926 strength_cos=0.4688</title>
+<rect x="708" y="154" width="78" height="48" rx="6" fill="rgb(255,219,161)" fill-opacity="0.446" stroke="#d7d7d7" stroke-width="1"/>
+<text x="713" y="165" class="mono idx">21</text>
+<text x="747.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">存在</text>
+</g>
+<g>
+<title>pos=22 token=所谓 next=无法 activation=15.34 detect_cos=0.148888 strength_cos=0.524617</title>
+<rect x="793" y="154" width="78" height="48" rx="6" fill="rgb(255,201,139)" fill-opacity="0.505" stroke="#d7d7d7" stroke-width="1"/>
+<text x="798" y="165" class="mono idx">22</text>
+<text x="832.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">所谓</text>
+</g>
+<g>
+<title>pos=23 token=无法 next=控制的 activation=11.2409 detect_cos=0.12246 strength_cos=0.464343</title>
+<rect x="878" y="154" width="78" height="48" rx="6" fill="rgb(255,214,154)" fill-opacity="0.464" stroke="#d7d7d7" stroke-width="1"/>
+<text x="883" y="165" class="mono idx">23</text>
+<text x="917.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">无法</text>
+</g>
+<g>
+<title>pos=24 token=控制的 next=生理 activation=14.2 detect_cos=0.143856 strength_cos=0.487106</title>
+<rect x="963" y="154" width="78" height="48" rx="6" fill="rgb(255,205,143)" fill-opacity="0.494" stroke="#d7d7d7" stroke-width="1"/>
+<text x="968" y="165" class="mono idx">24</text>
+<text x="1002.0" y="185" class="mono tok" text-anchor="middle" textLength="42" lengthAdjust="spacingAndGlyphs">控制的</text>
+</g>
+<g>
+<title>pos=25 token=生理 next=反应 activation=15.3535 detect_cos=0.154712 strength_cos=0.466589</title>
+<rect x="1048" y="154" width="78" height="48" rx="6" fill="rgb(255,201,139)" fill-opacity="0.505" stroke="#d7d7d7" stroke-width="1"/>
+<text x="1053" y="165" class="mono idx">25</text>
+<text x="1087.0" y="185" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">生理</text>
+</g>
+<g>
+<title>pos=26 token=反应 next=。 activation=64.2091 detect_cos=0.424801 strength_cos=0.65106</title>
+<rect x="28" y="216" width="78" height="48" rx="6" fill="rgb(165,34,28)" fill-opacity="1.000" stroke="#212121" stroke-width="2"/>
+<text x="33" y="227" class="mono idx">26</text>
+<text x="67.0" y="247" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">反应</text>
+</g>
+<g>
+<title>pos=27 token=。 next=\n\n activation=35.6498 detect_cos=0.269914 strength_cos=0.585615</title>
+<rect x="113" y="216" width="78" height="48" rx="6" fill="rgb(245,136,71)" fill-opacity="0.711" stroke="#d7d7d7" stroke-width="1"/>
+<text x="118" y="227" class="mono idx">27</text>
+<text x="152.0" y="247" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">。</text>
+</g>
+<g>
+<title>pos=28 token=\n\n next=如果你 activation=30.6255 detect_cos=0.242618 strength_cos=0.56475</title>
+<rect x="198" y="216" width="78" height="48" rx="6" fill="rgb(255,154,82)" fill-opacity="0.660" stroke="#d7d7d7" stroke-width="1"/>
+<text x="203" y="227" class="mono idx">28</text>
+<text x="237.0" y="247" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">↵↵</text>
+</g>
+<g>
+<title>pos=29 token=如果你 next=看到 activation=13.849 detect_cos=0.142118 strength_cos=0.452849</title>
+<rect x="283" y="216" width="78" height="48" rx="6" fill="rgb(255,206,144)" fill-opacity="0.490" stroke="#d7d7d7" stroke-width="1"/>
+<text x="288" y="227" class="mono idx">29</text>
+<text x="322.0" y="247" class="mono tok" text-anchor="middle" textLength="42" lengthAdjust="spacingAndGlyphs">如果你</text>
+</g>
+<g>
+<title>pos=30 token=看到 next=我在 activation=14.1126 detect_cos=0.140115 strength_cos=0.501665</title>
+<rect x="368" y="216" width="78" height="48" rx="6" fill="rgb(255,205,143)" fill-opacity="0.493" stroke="#d7d7d7" stroke-width="1"/>
+<text x="373" y="227" class="mono idx">30</text>
+<text x="407.0" y="247" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">看到</text>
+</g>
+<g>
+<title>pos=31 token=我在 next=句 activation=12.7746 detect_cos=0.127532 strength_cos=0.501417</title>
+<rect x="453" y="216" width="78" height="48" rx="6" fill="rgb(255,209,148)" fill-opacity="0.479" stroke="#d7d7d7" stroke-width="1"/>
+<text x="458" y="227" class="mono idx">31</text>
+<text x="492.0" y="247" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">我在</text>
+</g>
+<g>
+<title>pos=32 token=句 next=末 activation=9.08025 detect_cos=0.111955 strength_cos=0.405102</title>
+<rect x="538" y="216" width="78" height="48" rx="6" fill="rgb(255,221,162)" fill-opacity="0.442" stroke="#d7d7d7" stroke-width="1"/>
+<text x="543" y="227" class="mono idx">32</text>
+<text x="577.0" y="247" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">句</text>
+</g>
+<g>
+<title>pos=33 token=末 next=添加 activation=13.2293 detect_cos=0.13781 strength_cos=0.446949</title>
+<rect x="623" y="216" width="78" height="48" rx="6" fill="rgb(255,208,147)" fill-opacity="0.484" stroke="#d7d7d7" stroke-width="1"/>
+<text x="628" y="227" class="mono idx">33</text>
+<text x="662.0" y="247" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">末</text>
+</g>
+<g>
+<title>pos=34 token=添加 next=某个 activation=7.84787 detect_cos=0.0994689 strength_cos=0.389837</title>
+<rect x="708" y="216" width="78" height="48" rx="6" fill="rgb(255,225,167)" fill-opacity="0.429" stroke="#d7d7d7" stroke-width="1"/>
+<text x="713" y="227" class="mono idx">34</text>
+<text x="747.0" y="247" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">添加</text>
+</g>
+<g>
+<title>pos=35 token=某个 next=语气 activation=9.68177 detect_cos=0.108831 strength_cos=0.452098</title>
+<rect x="793" y="216" width="78" height="48" rx="6" fill="rgb(255,219,160)" fill-opacity="0.448" stroke="#d7d7d7" stroke-width="1"/>
+<text x="798" y="227" class="mono idx">35</text>
+<text x="832.0" y="247" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">某个</text>
+</g>
+<g>
+<title>pos=36 token=语气 next=词 activation=18.0701 detect_cos=0.175322 strength_cos=0.465871</title>
+<rect x="878" y="216" width="78" height="48" rx="6" fill="rgb(255,193,128)" fill-opacity="0.533" stroke="#d7d7d7" stroke-width="1"/>
+<text x="883" y="227" class="mono idx">36</text>
+<text x="917.0" y="247" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">语气</text>
+</g>
+<g>
+<title>pos=37 token=词 next=， activation=51.8798 detect_cos=0.360072 strength_cos=0.623816</title>
+<rect x="963" y="216" width="78" height="48" rx="6" fill="rgb(200,78,46)" fill-opacity="0.875" stroke="#d7d7d7" stroke-width="1"/>
+<text x="968" y="227" class="mono idx">37</text>
+<text x="1002.0" y="247" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">词</text>
+</g>
+<g>
+<title>pos=38 token=， next=那 activation=26.0602 detect_cos=0.213825 strength_cos=0.543827</title>
+<rect x="1048" y="216" width="78" height="48" rx="6" fill="rgb(255,168,99)" fill-opacity="0.614" stroke="#d7d7d7" stroke-width="1"/>
+<text x="1053" y="227" class="mono idx">38</text>
+<text x="1087.0" y="247" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">，</text>
+</g>
+<g>
+<title>pos=39 token=那 next=更 activation=23.3583 detect_cos=0.193627 strength_cos=0.554302</title>
+<rect x="28" y="278" width="78" height="48" rx="6" fill="rgb(255,176,109)" fill-opacity="0.586" stroke="#d7d7d7" stroke-width="1"/>
+<text x="33" y="289" class="mono idx">39</text>
+<text x="67.0" y="309" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">那</text>
+</g>
+<g>
+<title>pos=40 token=更 next=可能是 activation=10.7809 detect_cos=0.117486 strength_cos=0.440982</title>
+<rect x="113" y="278" width="78" height="48" rx="6" fill="rgb(255,215,156)" fill-opacity="0.459" stroke="#d7d7d7" stroke-width="1"/>
+<text x="118" y="289" class="mono idx">40</text>
+<text x="152.0" y="309" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">更</text>
+</g>
+<g>
+<title>pos=41 token=可能是 next=实验 activation=13.5868 detect_cos=0.131506 strength_cos=0.497905</title>
+<rect x="198" y="278" width="78" height="48" rx="6" fill="rgb(255,207,145)" fill-opacity="0.488" stroke="#d7d7d7" stroke-width="1"/>
+<text x="203" y="289" class="mono idx">41</text>
+<text x="237.0" y="309" class="mono tok" text-anchor="middle" textLength="42" lengthAdjust="spacingAndGlyphs">可能是</text>
+</g>
+<g>
+<title>pos=42 token=实验 next=性 activation=13.4207 detect_cos=0.137661 strength_cos=0.47579</title>
+<rect x="283" y="278" width="78" height="48" rx="6" fill="rgb(255,207,146)" fill-opacity="0.486" stroke="#d7d7d7" stroke-width="1"/>
+<text x="288" y="289" class="mono idx">42</text>
+<text x="322.0" y="309" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">实验</text>
+</g>
+<g>
+<title>pos=43 token=性 next=激活 activation=12.1154 detect_cos=0.124048 strength_cos=0.486628</title>
+<rect x="368" y="278" width="78" height="48" rx="6" fill="rgb(255,211,151)" fill-opacity="0.473" stroke="#d7d7d7" stroke-width="1"/>
+<text x="373" y="289" class="mono idx">43</text>
+<text x="407.0" y="309" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">性</text>
+</g>
+<g>
+<title>pos=44 token=激活 next=干预 activation=15.5322 detect_cos=0.153267 strength_cos=0.464083</title>
+<rect x="453" y="278" width="78" height="48" rx="6" fill="rgb(255,201,138)" fill-opacity="0.507" stroke="#d7d7d7" stroke-width="1"/>
+<text x="458" y="289" class="mono idx">44</text>
+<text x="492.0" y="309" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">激活</text>
+</g>
+<g>
+<title>pos=45 token=干预 next=造成的 activation=24.4644 detect_cos=0.209435 strength_cos=0.529489</title>
+<rect x="538" y="278" width="78" height="48" rx="6" fill="rgb(255,173,105)" fill-opacity="0.598" stroke="#d7d7d7" stroke-width="1"/>
+<text x="543" y="289" class="mono idx">45</text>
+<text x="577.0" y="309" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">干预</text>
+</g>
+<g>
+<title>pos=46 token=造成的 next=。 activation=20.8713 detect_cos=0.185689 strength_cos=0.517181</title>
+<rect x="623" y="278" width="78" height="48" rx="6" fill="rgb(255,184,118)" fill-opacity="0.561" stroke="#212121" stroke-width="2"/>
+<text x="628" y="289" class="mono idx">46</text>
+<text x="662.0" y="309" class="mono tok" text-anchor="middle" textLength="42" lengthAdjust="spacingAndGlyphs">造成的</text>
+</g>
+<g>
+<title>pos=47 token=。 next=这种现象 activation=35.1963 detect_cos=0.272994 strength_cos=0.600775</title>
+<rect x="708" y="278" width="78" height="48" rx="6" fill="rgb(246,138,71)" fill-opacity="0.706" stroke="#d7d7d7" stroke-width="1"/>
+<text x="713" y="289" class="mono idx">47</text>
+<text x="747.0" y="309" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">。</text>
+</g>
+<g>
+<title>pos=48 token=这种现象 next=值得 activation=30.2988 detect_cos=0.242041 strength_cos=0.565976</title>
+<rect x="793" y="278" width="78" height="48" rx="6" fill="rgb(255,155,83)" fill-opacity="0.657" stroke="#d7d7d7" stroke-width="1"/>
+<text x="798" y="289" class="mono idx">48</text>
+<text x="832.0" y="309" class="mono tok" text-anchor="middle" textLength="56" lengthAdjust="spacingAndGlyphs">这种现象</text>
+</g>
+<g>
+<title>pos=49 token=值得 next=分析 activation=14.2491 detect_cos=0.145698 strength_cos=0.469772</title>
+<rect x="878" y="278" width="78" height="48" rx="6" fill="rgb(255,205,143)" fill-opacity="0.494" stroke="#d7d7d7" stroke-width="1"/>
+<text x="883" y="289" class="mono idx">49</text>
+<text x="917.0" y="309" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">值得</text>
+</g>
+<g>
+<title>pos=50 token=分析 next=， activation=48.3994 detect_cos=0.347542 strength_cos=0.632465</title>
+<rect x="963" y="278" width="78" height="48" rx="6" fill="rgb(209,91,52)" fill-opacity="0.840" stroke="#d7d7d7" stroke-width="1"/>
+<text x="968" y="289" class="mono idx">50</text>
+<text x="1002.0" y="309" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">分析</text>
+</g>
+<g>
+<title>pos=51 token=， next=但不 activation=33.9878 detect_cos=0.269009 strength_cos=0.597456</title>
+<rect x="1048" y="278" width="78" height="48" rx="6" fill="rgb(250,142,73)" fill-opacity="0.694" stroke="#d7d7d7" stroke-width="1"/>
+<text x="1053" y="289" class="mono idx">51</text>
+<text x="1087.0" y="309" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">，</text>
+</g>
+<g>
+<title>pos=52 token=但不 next=应该 activation=13.2506 detect_cos=0.146648 strength_cos=0.417682</title>
+<rect x="28" y="340" width="78" height="48" rx="6" fill="rgb(255,208,146)" fill-opacity="0.484" stroke="#d7d7d7" stroke-width="1"/>
+<text x="33" y="351" class="mono idx">52</text>
+<text x="67.0" y="371" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">但不</text>
+</g>
+<g>
+<title>pos=53 token=应该 next=被 activation=19.086 detect_cos=0.182852 strength_cos=0.477139</title>
+<rect x="113" y="340" width="78" height="48" rx="6" fill="rgb(255,190,125)" fill-opacity="0.543" stroke="#d7d7d7" stroke-width="1"/>
+<text x="118" y="351" class="mono idx">53</text>
+<text x="152.0" y="371" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">应该</text>
+</g>
+<g>
+<title>pos=54 token=被 next=过度 activation=13.4995 detect_cos=0.143867 strength_cos=0.447158</title>
+<rect x="198" y="340" width="78" height="48" rx="6" fill="rgb(255,207,146)" fill-opacity="0.487" stroke="#d7d7d7" stroke-width="1"/>
+<text x="203" y="351" class="mono idx">54</text>
+<text x="237.0" y="371" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">被</text>
+</g>
+<g>
+<title>pos=55 token=过度 next=拟 activation=11.7467 detect_cos=0.129868 strength_cos=0.436359</title>
+<rect x="283" y="340" width="78" height="48" rx="6" fill="rgb(255,212,152)" fill-opacity="0.469" stroke="#d7d7d7" stroke-width="1"/>
+<text x="288" y="351" class="mono idx">55</text>
+<text x="322.0" y="371" class="mono tok" text-anchor="middle" textLength="28" lengthAdjust="spacingAndGlyphs">过度</text>
+</g>
+<g>
+<title>pos=56 token=拟 next=人 activation=4.64998 detect_cos=0.0733438 strength_cos=0.3424</title>
+<rect x="368" y="340" width="78" height="48" rx="6" fill="rgb(255,235,179)" fill-opacity="0.397" stroke="#d7d7d7" stroke-width="1"/>
+<text x="373" y="351" class="mono idx">56</text>
+<text x="407.0" y="371" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">拟</text>
+</g>
+<g>
+<title>pos=57 token=人 next=化 activation=25.8581 detect_cos=0.222897 strength_cos=0.527808</title>
+<rect x="453" y="340" width="78" height="48" rx="6" fill="rgb(255,168,99)" fill-opacity="0.612" stroke="#d7d7d7" stroke-width="1"/>
+<text x="458" y="351" class="mono idx">57</text>
+<text x="492.0" y="371" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">人</text>
+</g>
+<g>
+<title>pos=58 token=化 next=。 activation=57.4734 detect_cos=0.396107 strength_cos=0.624501</title>
+<rect x="538" y="340" width="78" height="48" rx="6" fill="rgb(184,58,38)" fill-opacity="0.932" stroke="#212121" stroke-width="2"/>
+<text x="543" y="351" class="mono idx">58</text>
+<text x="577.0" y="371" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">化</text>
+</g>
+<g>
+<title>pos=59 token=。 next=&lt;|im_end|&gt; activation=36.6737 detect_cos=0.280804 strength_cos=0.592007</title>
+<rect x="623" y="340" width="78" height="48" rx="6" fill="rgb(242,133,69)" fill-opacity="0.721" stroke="#d7d7d7" stroke-width="1"/>
+<text x="628" y="351" class="mono idx">59</text>
+<text x="662.0" y="371" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">。</text>
+</g>
+<g>
+<title>pos=60 token=&lt;|im_end|&gt; next=\n activation=0.282649 detect_cos=0.0316972 strength_cos=0.0522142</title>
+<rect x="708" y="340" width="78" height="48" rx="6" fill="rgb(255,248,195)" fill-opacity="0.353" stroke="#212121" stroke-width="2"/>
+<text x="713" y="351" class="mono idx">60</text>
+<text x="747.0" y="371" class="mono tok" text-anchor="middle" textLength="64" lengthAdjust="spacingAndGlyphs">&lt;|im_e…</text>
+</g>
+<g>
+<title>pos=61 token=\n next= activation=8.00167 detect_cos=0.120694 strength_cos=0.303642</title>
+<rect x="793" y="340" width="78" height="48" rx="6" fill="rgb(255,224,166)" fill-opacity="0.431" stroke="#d7d7d7" stroke-width="1"/>
+<text x="798" y="351" class="mono idx">61</text>
+<text x="832.0" y="371" class="mono tok" text-anchor="middle" textLength="14" lengthAdjust="spacingAndGlyphs">↵</text>
+</g>
+<text x="28" y="422" class="note">Generated from outputs/sentence_end_curve_localdiff_fixed/sentence_end_curve.json. Hover tokens in SVG-capable viewers for exact activation values.</text>
+</svg>
