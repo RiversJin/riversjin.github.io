@@ -58,11 +58,12 @@ def dequant_kernel(
 家境贫寒, 没有N卡, 租用显卡吧, 容器里面又没有权限看gpu的性能计数器, 所以自己的7900xtx也不是不能凑合一下下.
 虽然amd的性能探查没有n家好用, 但也还行吧. 
 ![AMD GPU profile 中 s_waitcnt vmcnt 占据主要耗时](/images/amdgpu-good-bad-bug-profile.png)
-由于这个计算实在是太轻量了, 所以很明显它是一个memory-bound的操作. 从这张图里面也能看到, 绝大部分时间都是 s_waitcnt vmcnt(0)
-> s_  标量指令
-> waitcnt 等待硬件计数器
-> vmcnt 等待的计数器是 未完成的向量内存读取操作
-> (0) 未完成的数量为0, 就是需要完成所有pending的内存读取操作后向下执行
+由于这个计算实在是太轻量了, 所以很明显它是一个memory-bound的操作. 从这张图里面也能看到, 绝大部分时间都是 `s_waitcnt vmcnt(0)`:
+
+- `s_`: 标量指令
+- `waitcnt`: 等待硬件计数器
+- `vmcnt`: 等待的计数器是未完成的向量内存读取操作
+- `(0)`: 未完成的数量为0, 也就是需要完成所有pending的内存读取操作后向下执行
 
 看汇编有点麻烦是不是, 这里请LLM大人翻译一下:
 ```text
